@@ -1,3 +1,4 @@
+import csv
 
 class Men:
     def __init__(self, firsname, lastname, age):
@@ -75,8 +76,74 @@ while answer != 'N':
         
     print('Просмотреть предложения оставшихся банков? Y/N')
     answer = input()
+      
+def WriterMenInfo():
+    myData = [["FirstName", "LastName", "Age", "Bank", "Bid"],
+          [men.firsname, men.lastname, men.age, bank.namebankOne, bid.bidOne]]
+          
+ 
+    myFile = open('WriterInfoMen1.csv', 'w')
+    with myFile:
+        writer = csv.writer(myFile, delimiter=';')
+        writer.writerows(myData)
+     
+    print("Запись прошла успешно!")
+
+def WriterMenInfo2():
+    myData = [["FirstName", "LastName", "Age", "Bank", "Bid"],
+          [men.firsname, men.lastname, men.age, bank.namebankTwo, bid.bidTwo]]
+          
+ 
+    myFile = open('WriterInfoMen2.csv', 'w')
+    with myFile:
+        writer = csv.writer(myFile, delimiter=';')
+        writer.writerows(myData)
+     
+    print("Запись прошла успешно!")
+
+def DictWriterMenInfo():
+    with open('DictWriterMenInfo.csv', 'w') as csvfile:
+        fieldnames = ['FirstName', 'LastName', 'Age', 'Bank', 'Bid']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
+ 
+        writer.writeheader()
+        writer.writerow({'FirstName': men.firsname, 'LastName': men.lastname, 'Age': men.age, 'Bank': bank.namebankThree, 'Bid': bid.bidThree})
+       
+    print("Запись прошла успешно!")
 
 if answer == 'N':
- 
-   print('Поздравляем с выбором банка!')
-   exit(0)
+    
+    print('Поздравляем с выбором банка!')
+    if myBan == '1':
+        print('Запись Ваших данных с помощью csv.writer  .......')
+        WriterMenInfo()
+
+    elif myBan == '2':
+        print('Запись Ваших данных с помощью csv.writer  .......')
+        WriterMenInfo2()
+
+    elif myBan == '3':
+        print('Запись Ваших данных с помощью csv.DictWriter  .......')
+        DictWriterMenInfo()
+   
+
+print('ВНИМАНИЕ! Только для Вас мы сформировали выгодные кредитные предложения от наших банков-парнеров!!!')
+print('Выберите удобный для Вас формат представления данных: 1. Вывод в колонках 2. Вывод в строках ')
+
+myReaderCSV = input()
+
+if myReaderCSV == '1':
+    with open('Bank.csv') as File:
+        reader = csv.reader(File, delimiter=',', quotechar=',',
+                        quoting=csv.QUOTE_MINIMAL)
+        for row in reader:
+            print(row)
+elif myReaderCSV == '2':
+    results = []
+    with open('Bank.csv') as File:
+        reader = csv.DictReader(File)
+        for row in reader:
+            results.append(row)
+    print (results)
+else:
+    exit(0)
